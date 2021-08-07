@@ -15,4 +15,9 @@ public class ChunkObject : MonoBehaviour
     {
         return chunk.DestroyBlock(position);
     }
+
+    public void BuildTile(Vector3 position, TileType tileType)
+    {
+        chunk.SetTile(tileType, (int)position.x, (int)position.y);
+    }
 }

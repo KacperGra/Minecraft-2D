@@ -830,7 +830,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1455689597
 MonoBehaviour:
@@ -847,7 +847,7 @@ MonoBehaviour:
   player: {fileID: 1950460165}
   chunkTilemap: {fileID: 6829622963652486706, guid: 58f141e68226bcc4eb8eb88ea51062c7, type: 3}
   gridContent: {fileID: 1706550424}
-  renderDistance: 5
+  renderDistance: 4
 --- !u!1 &1539245887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1104,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950460164
 GameObject:
@@ -1141,7 +1141,7 @@ Transform:
   m_Children:
   - {fileID: 1242782491}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1950460166
 BoxCollider2D:

@@ -52,10 +52,14 @@ public class Chunk
     {
         int x = Mathf.FloorToInt(Mathf.Abs(position.x) % Size);
         int y = Mathf.FloorToInt(Mathf.Abs(position.y) % Size);
+        if(position.x <= 0)
+        {
+            x = Mathf.FloorToInt(Mathf.Abs(position.x + Size) % Size);
+        }
 
         var tileType = tiles[x, y].tileType;
         tiles[x, y].tileType = TileType.Air;
-        UpdateTexture();
+        UpdateTile(x, y);
 
         return tileType;
     }
@@ -66,37 +70,42 @@ public class Chunk
         {
             for (int y = 0; y < Size; ++y)
             {
-                switch(tiles[x, y].tileType)
-                {
-                    case TileType.Air:
-                        SetTile(x, y, null);
-                        break;
-                    case TileType.Dirt:
-                        SetTile(x, y, GameAssets.i.dirtTile);
-                        break;
-                    case TileType.DirtGrass:
-                        SetTile(x, y, GameAssets.i.dirtGrassTile);
-                        break;
-                    case TileType.Stone:
-                        SetTile(x, y, GameAssets.i.stoneTile);
-                        break;
-                    case TileType.TreeLogMid:
-                        SetTile(x, y, GameAssets.i.treeLogMidTile);
-                        break;
-                    case TileType.TreeLogBottom:
-                        SetTile(x, y, GameAssets.i.treeLogBottomTile);
-                        break;
-                    case TileType.TreeLog:
-                        SetTile(x, y, GameAssets.i.treeLogTile);
-                        break;
-                    case TileType.TreeLeaves:
-                        SetTile(x, y, GameAssets.i.treeLeavesTile);
-                        break;
-                    case TileType.Grass:
-                        SetTile(x, y, GameAssets.i.grassTile);
-                        break;
-                }
+                UpdateTile(x, y);
             }
+        }
+    }
+
+    public void UpdateTile(int x, int y)
+    {
+        switch (tiles[x, y].tileType)
+        {
+            case TileType.Air:
+                SetTile(x, y, null);
+                break;
+            case TileType.Dirt:
+                SetTile(x, y, GameAssets.i.dirtTile);
+                break;
+            case TileType.DirtGrass:
+                SetTile(x, y, GameAssets.i.dirtGrassTile);
+                break;
+            case TileType.Stone:
+                SetTile(x, y, GameAssets.i.stoneTile);
+                break;
+            case TileType.TreeLogMid:
+                SetTile(x, y, GameAssets.i.treeLogMidTile);
+                break;
+            case TileType.TreeLogBottom:
+                SetTile(x, y, GameAssets.i.treeLogBottomTile);
+                break;
+            case TileType.TreeLog:
+                SetTile(x, y, GameAssets.i.treeLogTile);
+                break;
+            case TileType.TreeLeaves:
+                SetTile(x, y, GameAssets.i.treeLeavesTile);
+                break;
+            case TileType.Grass:
+                SetTile(x, y, GameAssets.i.grassTile);
+                break;
         }
     }
 

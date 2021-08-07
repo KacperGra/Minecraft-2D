@@ -38,5 +38,23 @@ public class PlayerBuilding : MonoBehaviour
                 }
             }
         }
+        if(Input.GetMouseButtonDown(1))
+        {
+            var position = Chunk.GetObjectChunkPosition(pointer.transform);
+            var chunk = MapGenerator.GetChunk(position);
+
+            int x = (int)pointer.position.x % Chunk.Size;
+            int y = (int)pointer.position.y % Chunk.Size;
+            if (pointer.position.x <= 0)
+            {
+                x = Mathf.FloorToInt(Mathf.Abs(pointer.position.x + (Chunk.Size * Mathf.Abs(position.x) + 1)) % Chunk.Size);
+            }
+
+            chunk.SetTile(TileType.Dirt, x, y);
+            chunk.UpdateTile(x, y);
+        }
+
     }
+
+
 }

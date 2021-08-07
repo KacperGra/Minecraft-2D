@@ -25,6 +25,13 @@ public class MapGenerator : MonoBehaviour
     private readonly List<Chunk> activeChunks = new List<Chunk>();
     private readonly List<Chunk> chunksToDestroy = new List<Chunk>();
 
+    public static MapGenerator Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         Position playerPos = Chunk.GetObjectChunkPosition(player);
@@ -141,7 +148,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     chunk.SetTile(TileType.Dirt, x, y);
                 }
-                else if (height < MapSettings.StoneLevel)
+                else if (height <= MapSettings.StoneLevel)
                 {
                     chunk.SetTile(TileType.Stone, x, y);
                 }
@@ -157,13 +164,13 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < Chunk.Size; ++y)
             {
-                if(Random.value > MapSettings.ChanceForTree)
-                {
-                    continue;
-                }
-
                 if(chunk.GetTile(x, y) == TileType.DirtGrass)
                 {
+                    if (Random.value > MapSettings.ChanceForTree)
+                    {
+                        continue;
+                    }
+
                     // Logs
                     chunk.SetTile(TileType.TreeLogBottom, x, y + 1);
                     chunk.SetTile(TileType.TreeLogMid, x, y + 2);
@@ -252,6 +259,11 @@ public class MapGenerator : MonoBehaviour
             chunksToDestroy.RemoveAt(0);
             yield return new WaitForSeconds(GenerationTime);
         }
+    }
+
+    public static Chunk GetChunk(Position position)
+    {
+        return Instance.chunksDictionary[position];
     }
 }
 
