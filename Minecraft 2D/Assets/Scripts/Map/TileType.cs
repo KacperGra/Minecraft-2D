@@ -3,5 +3,10 @@ public enum TileType
     Air,
     Dirt,
     DirtGrass,
-    Stone
+    Stone,
+    TreeLogMid,
+    TreeLogBottom,
+    TreeLog,
+    TreeLeaves,
+    Grass
 }

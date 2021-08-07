@@ -42,17 +42,22 @@ public class Chunk
 
     public void SetTile(TileType tileType, int x, int y)
     {
-        tiles[x, y].tileType = tileType; 
+        if(x >= 0 && y >= 0 && x < Size && y < Size)
+        {
+            tiles[x, y].tileType = tileType;
+        }
     }
 
-    public void DestroyBlock(Vector3 position)
+    public TileType DestroyBlock(Vector3 position)
     {
         int x = Mathf.FloorToInt(Mathf.Abs(position.x) % Size);
         int y = Mathf.FloorToInt(Mathf.Abs(position.y) % Size);
 
-        Debug.Log($"Destroyed block on X {x} Y {y}");
+        var tileType = tiles[x, y].tileType;
         tiles[x, y].tileType = TileType.Air;
         UpdateTexture();
+
+        return tileType;
     }
 
     public void UpdateTexture()
@@ -74,6 +79,21 @@ public class Chunk
                         break;
                     case TileType.Stone:
                         SetTile(x, y, GameAssets.i.stoneTile);
+                        break;
+                    case TileType.TreeLogMid:
+                        SetTile(x, y, GameAssets.i.treeLogMidTile);
+                        break;
+                    case TileType.TreeLogBottom:
+                        SetTile(x, y, GameAssets.i.treeLogBottomTile);
+                        break;
+                    case TileType.TreeLog:
+                        SetTile(x, y, GameAssets.i.treeLogTile);
+                        break;
+                    case TileType.TreeLeaves:
+                        SetTile(x, y, GameAssets.i.treeLeavesTile);
+                        break;
+                    case TileType.Grass:
+                        SetTile(x, y, GameAssets.i.grassTile);
                         break;
                 }
             }

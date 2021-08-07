@@ -5,6 +5,9 @@ using UnityEngine.Tilemaps;
 
 public class MapGenerator : MonoBehaviour
 {
+    private const float GenerationTime = 0.05f;
+    private const float DestroyingTime = 0.15f;
+
     [Header("Player")]
     [SerializeField] private Transform player;
 
@@ -16,10 +19,6 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int renderDistance = 3;
 
     private Position lastPlayerPosition;
-
-    private const float GenerationTime = 0.05f;
-    private const float DestroyingTime = 0.15f;
-
 
     private readonly Dictionary<Position, Chunk> chunksDictionary = new Dictionary<Position, Chunk>();
     private readonly List<Chunk> chunksToGenerate = new List<Chunk>();
@@ -105,6 +104,19 @@ public class MapGenerator : MonoBehaviour
             return;
         }
 
+        SetupBlocks(chunk);
+
+        if(chunk.GetPosition().y == 1)
+        {
+            GenerateTrees(chunk);
+            SmoothChunk(chunk);
+        }
+        
+        chunk.UpdateTexture();
+    }
+
+    private void SetupBlocks(Chunk chunk)
+    {
         for (int x = 0; x < Chunk.Size; ++x)
         {
             int maxHeight = MapSettings.MaxHeight;
@@ -117,7 +129,7 @@ public class MapGenerator : MonoBehaviour
             {
                 int height = (int)chunk.Tilemap.transform.position.y + y;
 
-                if(height > maxHeight)
+                if (height > maxHeight)
                 {
                     chunk.SetTile(TileType.Air, x, y);
                 }
@@ -135,7 +147,69 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-        chunk.UpdateTexture();
+    }
+
+    private void GenerateTrees(Chunk chunk)
+    {
+        int offsetX = 3;
+
+        for (int x = offsetX; x < Chunk.Size - offsetX; ++x)
+        {
+            for (int y = 0; y < Chunk.Size; ++y)
+            {
+                if(Random.value > MapSettings.ChanceForTree)
+                {
+                    continue;
+                }
+
+                if(chunk.GetTile(x, y) == TileType.DirtGrass)
+                {
+                    // Logs
+                    chunk.SetTile(TileType.TreeLogBottom, x, y + 1);
+                    chunk.SetTile(TileType.TreeLogMid, x, y + 2);
+                    chunk.SetTile(TileType.TreeLog, x, y + 3);
+
+                    // Leaves
+                    chunk.SetTile(TileType.TreeLeaves, x - 1, y + 3);
+                    chunk.SetTile(TileType.TreeLeaves, x - 2, y + 3);
+                    chunk.SetTile(TileType.TreeLeaves, x + 1, y + 3);
+                    chunk.SetTile(TileType.TreeLeaves, x + 2, y + 3);
+
+                    chunk.SetTile(TileType.TreeLeaves, x + 1, y + 4);
+                    chunk.SetTile(TileType.TreeLeaves, x, y + 4);
+                    chunk.SetTile(TileType.TreeLeaves, x - 1, y + 4);
+
+                    chunk.SetTile(TileType.TreeLeaves, x + 1, y + 5);
+                    chunk.SetTile(TileType.TreeLeaves, x, y + 5);
+                    chunk.SetTile(TileType.TreeLeaves, x - 1, y + 5);
+
+                    chunk.SetTile(TileType.TreeLeaves, x, y + 6);
+                }
+            }
+        }
+    }
+
+    private void SmoothChunk(Chunk chunk)
+    {
+        for (int x = 0; x < Chunk.Size; ++x)
+        {
+            for (int y = 0; y < Chunk.Size - 1; ++y)
+            {
+                if (Random.value > MapSettings.ChanceForGrass)
+                {
+                    continue;
+                }
+                if(chunk.GetTile(x, y + 1) != TileType.Air)
+                {
+                    continue;
+                }
+
+                if(chunk.GetTile(x, y) == TileType.DirtGrass)
+                {
+                    chunk.SetTile(TileType.Grass, x, y + 1);
+                }
+            }
+        }
     }
 
     private bool IsChunkInRange(Chunk chunk)
@@ -185,6 +259,9 @@ public static class MapSettings
 {
     public const int Seed = 4096;
 
-    public const int MaxHeight = 49;
+    public const int MaxHeight = 45;
     public const int StoneLevel = 20;
+
+    public const float ChanceForTree = 0.035f;
+    public const float ChanceForGrass = 0.25f;
 }

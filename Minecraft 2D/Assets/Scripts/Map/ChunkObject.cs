@@ -11,8 +11,8 @@ public class ChunkObject : MonoBehaviour
         this.chunk = chunk;
     }
 
-    public void DestroyBlock(Vector3 position)
+    public TileType DestroyBlock(Vector3 position)
     {
-        chunk.DestroyBlock(position);
+        return chunk.DestroyBlock(position);
     }
 }
