@@ -14,4 +14,17 @@ public class ChunkTile
         position = tilePosition;
         this.tileType = TileType.Air;
     }
+
+    public bool IsReplacable()
+    {
+        switch(tileType)
+        {
+            default:
+                return false;
+            case TileType.Air:
+                return true;
+            case TileType.Grass:
+                return true;
+        }
+    }
 }

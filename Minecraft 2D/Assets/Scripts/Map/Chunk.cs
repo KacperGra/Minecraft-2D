@@ -48,20 +48,28 @@ public class Chunk
         }
     }
 
-    public TileType DestroyBlock(Vector3 position)
+    public ItemType DestroyBlock(Vector3 position)
     {
-        int x = Mathf.FloorToInt(Mathf.Abs(position.x) % Size);
-        int y = Mathf.FloorToInt(Mathf.Abs(position.y) % Size);
-        if(position.x <= 0)
-        {
-            x = Mathf.FloorToInt(Mathf.Abs(position.x + Size) % Size);
-        }
+        PositionToXY(position, out int x, out int y);
 
         var tileType = tiles[x, y].tileType;
         tiles[x, y].tileType = TileType.Air;
         UpdateTile(x, y);
 
-        return tileType;
+        return BaseItem.TileToItem(tileType);
+    }
+
+    public void BuildTile(Vector3 position, TileType tileType)
+    {
+        PositionToXY(position, out int x, out int y);
+
+        if (!tiles[x, y].IsReplacable())
+        {
+            return;
+        }
+
+        SetTile(tileType, x, y);
+        UpdateTile(x, y);
     }
 
     public void UpdateTexture()
@@ -117,6 +125,16 @@ public class Chunk
     public TileType GetTile(int x, int y)
     {
         return tiles[x, y].tileType;
+    }
+
+    public void PositionToXY(Vector3 position, out int x, out int y)
+    {
+        x = (int)position.x % Size;
+        y = (int)position.y % Size;
+        if (position.x <= 0)
+        {
+            x = Mathf.FloorToInt(Mathf.Abs(position.x + Size) % Size);
+        }
     }
 
     public static Position GetObjectChunkPosition(Transform transform)

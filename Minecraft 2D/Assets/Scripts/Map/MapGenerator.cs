@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class MapGenerator : MonoBehaviour
 {
     private const float GenerationTime = 0.05f;
-    private const float DestroyingTime = 0.15f;
+    private const float DestroyingTime = 0.1f;
 
     [Header("Player")]
     [SerializeField] private Transform player;
@@ -257,7 +257,7 @@ public class MapGenerator : MonoBehaviour
             chunksToDestroy[0].Tilemap.gameObject.SetActive(false);
             activeChunks.Remove(chunksToDestroy[0]);
             chunksToDestroy.RemoveAt(0);
-            yield return new WaitForSeconds(GenerationTime);
+            yield return new WaitForSeconds(DestroyingTime);
         }
     }
 
