@@ -18,7 +18,7 @@ public class PlayerBuilding : MonoBehaviour
         inventory = GetComponent<Player>().inventory;
         inventoryUI = GetComponent<Player>().inventoryUI;
 
-        inventoryUI.SelectSlot(currentSlotIndex);
+        //inventoryUI.SelectSlot(currentSlotIndex);
     }
 
     private void Update()
@@ -98,8 +98,10 @@ public class PlayerBuilding : MonoBehaviour
             {
                 if (item is BaseItem baseItem)
                 {
-                    inventory.RemoveItem(item);
-                    chunk.BuildTile(mousePosition, BaseItem.ItemToTile(baseItem.ItemType));
+                    if(chunk.BuildTile(mousePosition, BaseItem.ItemToTile(baseItem.ItemType)))
+                    {
+                        inventory.RemoveItem(item);
+                    }
                 }
             }
         }

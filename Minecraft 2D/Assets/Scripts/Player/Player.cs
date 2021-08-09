@@ -6,7 +6,7 @@ using DevKacper.Mechanic;
 
 public class Player : MonoBehaviour
 {
-    private const int InventorySize = 32;
+    private const int InventorySize = 25;
 
     public InventoryUI inventoryUI;
     public PlayerInventory inventory;
@@ -21,6 +21,14 @@ public class Player : MonoBehaviour
         inventory.OnInventoryUpdated.AddListener(UpdateUI);
         inventoryUI.SetupSlots(InventorySize);
         UpdateUI();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            inventoryUI.ToggleMainInventory();
+        }
     }
 
     private void UpdateUI()

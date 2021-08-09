@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,7 +9,19 @@ public class SlotUI : MonoBehaviour
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI textMesh;
-    public RectTransform rectTransform;
+    
+    private RectTransform rectTransform;
+    public RectTransform RectTransform => GetRectTransform();
+
+    private RectTransform GetRectTransform()
+    {
+        if(rectTransform == null)
+        {
+            rectTransform = GetComponent<RectTransform>();
+        }
+
+        return rectTransform;
+    }
 
     private int id;
     public int ID => id;

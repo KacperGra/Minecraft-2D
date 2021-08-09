@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    private readonly Vector2 BaseSlotSize = new Vector2(100, 100);
+    private readonly Vector2 BaseSlotSize = new Vector2(113, 113);
     private readonly Vector2 SelectedSlotSize = new Vector2(120, 120);
 
 
     [SerializeField] private RectTransform content;
     [SerializeField] private RectTransform mainContent;
+    [SerializeField] private RectTransform mainInventory;
 
     private const int BottomContentSize = 5;
 
@@ -46,12 +47,17 @@ public class InventoryUI : MonoBehaviour
         {
             if(slot.ID == id)
             {
-                slot.rectTransform.sizeDelta = SelectedSlotSize;
+                slot.RectTransform.sizeDelta = SelectedSlotSize;
             }
             else
             {
-                slot.rectTransform.sizeDelta = BaseSlotSize;
+                slot.RectTransform.sizeDelta = BaseSlotSize;
             }
         }
+    }
+
+    public void ToggleMainInventory()
+    {
+        mainInventory.gameObject.SetActive(!mainInventory.gameObject.activeSelf);
     }
 }

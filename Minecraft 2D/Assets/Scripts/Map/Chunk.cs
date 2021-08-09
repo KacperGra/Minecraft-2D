@@ -14,6 +14,7 @@ public class Chunk
     private ChunkTile[,] tiles;
 
     public Tilemap Tilemap => tilemap;
+
     public Position GetPosition()
     {
         return new Position(x, y);
@@ -59,17 +60,18 @@ public class Chunk
         return BaseItem.TileToItem(tileType);
     }
 
-    public void BuildTile(Vector3 position, TileType tileType)
+    public bool BuildTile(Vector3 position, TileType tileType)
     {
         PositionToXY(position, out int x, out int y);
 
         if (!tiles[x, y].IsReplacable())
         {
-            return;
+            return false;
         }
 
         SetTile(tileType, x, y);
         UpdateTile(x, y);
+        return true;
     }
 
     public void UpdateTexture()
@@ -125,6 +127,12 @@ public class Chunk
     public TileType GetTile(int x, int y)
     {
         return tiles[x, y].tileType;
+    }
+
+    public TileType GetTile(Vector3 worldPosition)
+    {
+        PositionToXY(worldPosition, out int x, out int y);
+        return GetTile(x, y);
     }
 
     public void PositionToXY(Vector3 position, out int x, out int y)

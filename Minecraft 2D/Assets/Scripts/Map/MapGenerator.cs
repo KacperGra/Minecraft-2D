@@ -130,7 +130,11 @@ public class MapGenerator : MonoBehaviour
 
             int perlinX = x + (int)chunk.Tilemap.transform.position.x + MapSettings.Seed;
             int perlinY = (int)chunk.Tilemap.transform.position.y + MapSettings.Seed;
-            maxHeight -= (int)(Mathf.PerlinNoise(perlinX * .035f, perlinY * .035f) * 16);
+
+            maxHeight -= (int)(Mathf.PerlinNoise(perlinX * MapSettings.PerlinMultiplier, perlinY * MapSettings.PerlinMultiplier) * MapSettings.MaxHeightDifference);
+
+            int stoneLevel = MapSettings.MaxStoneLevel;
+            stoneLevel -= (int)(Mathf.PerlinNoise(perlinX * MapSettings.PerlinMultiplier, perlinY * MapSettings.PerlinMultiplier) * MapSettings.MinStoneLevel);
 
             for (int y = 0; y < Chunk.Size; ++y)
             {
@@ -144,11 +148,11 @@ public class MapGenerator : MonoBehaviour
                 {
                     chunk.SetTile(TileType.DirtGrass, x, y);
                 }
-                else if (height > MapSettings.StoneLevel)
+                else if (height > stoneLevel)
                 {
                     chunk.SetTile(TileType.Dirt, x, y);
                 }
-                else if (height <= MapSettings.StoneLevel)
+                else if (height <= stoneLevel)
                 {
                     chunk.SetTile(TileType.Stone, x, y);
                 }
@@ -271,8 +275,14 @@ public static class MapSettings
 {
     public const int Seed = 4096;
 
+    public const float PerlinMultiplier = 0.025f;
+
     public const int MaxHeight = 45;
-    public const int StoneLevel = 20;
+
+    public const int MaxHeightDifference = 20;
+
+    public const int MaxStoneLevel = 30;
+    public const int MinStoneLevel = 15;
 
     public const float ChanceForTree = 0.035f;
     public const float ChanceForGrass = 0.25f;
