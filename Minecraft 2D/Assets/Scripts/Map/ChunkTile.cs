@@ -27,4 +27,15 @@ public class ChunkTile
                 return true;
         }
     }
+
+    public bool IsDependOnBottomTile()
+    {
+        switch (tileType)
+        {
+            default:
+                return false;
+            case TileType.Grass:
+                return true;
+        }
+    }
 }

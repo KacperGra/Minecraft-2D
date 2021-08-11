@@ -90,18 +90,14 @@ public class PlayerBuilding : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            var position = Chunk.GetObjectChunkPosition(pointer.transform);
-            var chunk = MapGenerator.GetChunk(position);
-
-            var item = inventory.GetItem(currentSlotIndex);
-            if (item != null)
+            Item item = inventory.GetItem(currentSlotIndex);
+            if(item != null && item is BaseItem baseItem)
             {
-                if (item is BaseItem baseItem)
+                Chunk chunk = MapGenerator.GetChunk(mousePosition);
+
+                if (chunk.BuildTile(mousePosition, BaseItem.ItemToTile(baseItem.ItemType)))
                 {
-                    if(chunk.BuildTile(mousePosition, BaseItem.ItemToTile(baseItem.ItemType)))
-                    {
-                        inventory.RemoveItem(item);
-                    }
+                    inventory.RemoveItem(item);
                 }
             }
         }

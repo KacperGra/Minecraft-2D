@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -34,14 +35,14 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
-        Position playerPos = Chunk.GetObjectChunkPosition(player);
+        Position playerPos = Chunk.GetWorldPositionToChunkPosition(player.position);
         lastPlayerPosition = playerPos;
         CreateChunks(renderDistance, playerPos);
     }
 
     private void Update()
     {
-        Position playerPos = Chunk.GetObjectChunkPosition(player);
+        Position playerPos = Chunk.GetWorldPositionToChunkPosition(player.position);
         if(playerPos != lastPlayerPosition)
         {
             CreateChunks(renderDistance, playerPos);
@@ -83,7 +84,6 @@ public class MapGenerator : MonoBehaviour
                 {
                     chunksToDestroy.Remove(chunk);
                 }
-
                 continue;
             }
 
@@ -93,7 +93,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-
+        StopCoroutine(GenerateMap());
         StartCoroutine(GenerateMap());
     }
 
@@ -245,12 +245,13 @@ public class MapGenerator : MonoBehaviour
             GenerateChunk(chunksToGenerate[0]);
             activeChunks.Add(chunksToGenerate[0]);
 
-            Debug.Log($"Generated chunk {chunksToGenerate[0].GetPosition()}");
+            //Debug.Log($"Generated chunk {chunksToGenerate[0].GetPosition()}");
 
             chunksToGenerate.RemoveAt(0);
             yield return new WaitForSeconds(GenerationTime);
         }
 
+        StopCoroutine(DestroyChunks());
         yield return StartCoroutine(DestroyChunks());
     }
 
@@ -268,6 +269,12 @@ public class MapGenerator : MonoBehaviour
     public static Chunk GetChunk(Position position)
     {
         return Instance.chunksDictionary[position];
+    }
+
+    public static Chunk GetChunk(Vector3 worldPosition)
+    {
+        Position position = Chunk.GetWorldPositionToChunkPosition(worldPosition);
+        return GetChunk(position);
     }
 }
 

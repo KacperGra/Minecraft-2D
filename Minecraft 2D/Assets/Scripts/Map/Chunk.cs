@@ -53,6 +53,12 @@ public class Chunk
     {
         PositionToXY(position, out int x, out int y);
 
+        if(tiles[x, y + 1].IsDependOnBottomTile())
+        {
+            tiles[x, y + 1].tileType = TileType.Air;
+            UpdateTile(x, y + 1);
+        }
+
         var tileType = tiles[x, y].tileType;
         tiles[x, y].tileType = TileType.Air;
         UpdateTile(x, y);
@@ -135,7 +141,7 @@ public class Chunk
         return GetTile(x, y);
     }
 
-    public void PositionToXY(Vector3 position, out int x, out int y)
+    private void PositionToXY(Vector3 position, out int x, out int y)
     {
         x = (int)position.x % Size;
         y = (int)position.y % Size;
@@ -145,10 +151,10 @@ public class Chunk
         }
     }
 
-    public static Position GetObjectChunkPosition(Transform transform)
+    public static Position GetWorldPositionToChunkPosition(Vector3 worldPosition)
     {
-        int x = Mathf.FloorToInt(transform.position.x / Size);
-        int y = Mathf.FloorToInt(transform.position.y / Size);
+        int x = Mathf.FloorToInt(worldPosition.x / Size);
+        int y = Mathf.FloorToInt(worldPosition.y / Size);
         return new Position(x, y);
     }
 }
