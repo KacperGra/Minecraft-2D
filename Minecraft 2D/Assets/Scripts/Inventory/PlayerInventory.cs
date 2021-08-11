@@ -79,6 +79,35 @@ public class PlayerInventory : Inventory
         }
     }
 
+    public void RemoveItem(Item item, int amount)
+    {
+        if (item == null)
+        {
+            return;
+        }
+
+        int requiredAmount = amount;
+
+        foreach (Slot slot in slots.Values)
+        {
+            if (slot.item != null && slot.item.ID == item.ID)
+            {
+                if(slot.amount >= requiredAmount)
+                {
+                    slot.amount -= requiredAmount;
+                    requiredAmount = 0;
+                }
+
+                if(slot.amount == 0)
+                {
+                    slot.item = null;
+                }
+                OnInventoryUpdated?.Invoke();
+                return;
+            }
+        }
+    }
+
     public override void Swap(int firstItemID, int secondItemID)
     {
         Item firstItem = GetItem(firstItemID);
@@ -88,5 +117,15 @@ public class PlayerInventory : Inventory
         slots[secondItemID].item = firstItem;
 
         OnInventoryUpdated?.Invoke();
+    }
+
+    public Slot[] GetSlotsArray()
+    {
+        Slot[] slots = new Slot[this.slots.Count];
+        for(int i = 0; i < this.slots.Count; ++i)
+        {
+            slots[i] = this.slots[i];
+        }
+        return slots;
     }
 }

@@ -15,6 +15,8 @@ public class GameAssets : MonoBehaviour
     public Tile treeLeavesTile;
     public Tile grassTile;
 
+    public Dictionary<ItemType, BaseItem> itemsDictionary;
+
     [Header("UI")]
     public SlotUI slotPrefab;
 
@@ -47,6 +49,25 @@ public class GameAssets : MonoBehaviour
                 return treeLeavesTile.sprite;
             case TileType.Grass:
                 return grassTile.sprite;
+            case TileType.Plank:
+                return plankSprite;
+        }
+    }
+
+    public Sprite GetItemSprite(ItemType itemType)
+    {
+        TileType itemToTile = BaseItem.ItemToTile(itemType);
+        if (itemToTile != TileType.Air)
+        {
+            return GetSprite(itemToTile);
+        }
+
+        switch (itemType)
+        {
+            case ItemType.Stick:
+                return stickSprite;
+            default:
+                return null;
         }
     }
 }

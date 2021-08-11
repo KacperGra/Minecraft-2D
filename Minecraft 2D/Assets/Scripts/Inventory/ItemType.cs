@@ -6,5 +6,7 @@ public enum ItemType
     Stone,
     TreeLog,
     TreeLeaves,
-    Grass
+    Grass,
+    Stick,
+    Plank
 }

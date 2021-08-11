@@ -64,24 +64,19 @@ public class PlayerBuilding : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            var colliders = Physics2D.OverlapPointAll(mousePosition);
-            foreach (Collider2D collider in colliders)
+            Chunk chunk = MapGenerator.GetChunk(mousePosition);
+            ItemType itemType = chunk.DestroyBlock(mousePosition);
+            if(itemType != ItemType.None)
             {
-                var chunk = collider.GetComponent<ChunkObject>();
-                if (chunk != null)
+                BaseItem newItem = new BaseItem
                 {
-                    var ItemType = chunk.DestroyBlock(mousePosition);
+                    ItemType = itemType,
+                    sprite = GameAssets.i.GetSprite(BaseItem.ItemToTile(itemType))
+                };
 
-                    BaseItem newItem = new BaseItem
-                    {
-                        ItemType = ItemType,
-                        sprite = GameAssets.i.GetSprite(BaseItem.ItemToTile(ItemType))
-                    };
+                inventory.AddItem(newItem);
 
-                    Debug.Log($"Item {ItemType}");
-
-                    inventory.AddItem(newItem);
-                }
+                Debug.Log($"Added {newItem.Name} to inventory.");
             }
         }
     }

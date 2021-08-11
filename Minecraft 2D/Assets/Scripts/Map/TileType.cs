@@ -8,5 +8,6 @@ public enum TileType
     TreeLogBottom,
     TreeLog,
     TreeLeaves,
-    Grass
+    Grass,
+    Plank
 }

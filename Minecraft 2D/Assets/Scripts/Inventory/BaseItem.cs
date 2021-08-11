@@ -4,10 +4,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "New Base Item")]
 public class BaseItem : Item
 {
     public Sprite sprite;
-    private ItemType itemType;
+    [SerializeField] private ItemType itemType;
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        id = (int)ItemType;
+        itemName = itemType.ToString();
+        name = itemName;
+    }
+#endif
 
     public ItemType ItemType
     {
@@ -18,7 +28,8 @@ public class BaseItem : Item
     private void SetItemType(ItemType value)
     {
         itemType = value;
-        name = value.ToString();
+        id = (int)value;
+        itemName = value.ToString();
     }
 
     public static TileType ItemToTile(ItemType itemType)
@@ -39,6 +50,8 @@ public class BaseItem : Item
                 return TileType.TreeLeaves;
             case ItemType.Grass:
                 return TileType.Grass;
+            case ItemType.Plank:
+                return TileType.Plank;
         }
     }
 
@@ -62,6 +75,8 @@ public class BaseItem : Item
                 return ItemType.TreeLeaves;
             case TileType.Grass:
                 return ItemType.Grass;
+            case TileType.Plank:
+                return ItemType.Plank;
         }
     }
 }
