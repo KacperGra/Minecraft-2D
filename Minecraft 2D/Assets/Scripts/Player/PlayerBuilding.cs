@@ -8,6 +8,7 @@ public class PlayerBuilding : MonoBehaviour
 {
     [SerializeField] private Transform pointer;
 
+    private Player player;
     private PlayerInventory inventory;
     private InventoryUI inventoryUI;
 
@@ -15,6 +16,7 @@ public class PlayerBuilding : MonoBehaviour
 
     private void Start()
     {
+        player = GetComponent<Player>();
         inventory = GetComponent<Player>().inventory;
         inventoryUI = GetComponent<Player>().inventoryUI;
 
@@ -24,6 +26,11 @@ public class PlayerBuilding : MonoBehaviour
     private void Update()
     {
         pointer.transform.position = UtilityClass.GetGridMousePosition();
+
+        if(!player.GetInput)
+        {
+            return;
+        }
 
         DestroyInput(pointer.transform.position);
         BuildInput(pointer.transform.position);

@@ -60,7 +60,7 @@ public class InventoryUI : MonoBehaviour
     {
         if(DOTween.IsTweening(mainInventory))
         {
-            return;
+            mainInventory.DOKill();
         }
 
         if (!mainInventory.gameObject.activeSelf)
@@ -68,20 +68,31 @@ public class InventoryUI : MonoBehaviour
             mainInventory.gameObject.SetActive(true);
 
             Sequence fadeInSequence = DOTween.Sequence();
-            fadeInSequence.Append(mainInventory.DOScale(new Vector3(1.15f, 1.15f, 1f), 0.3f))
-                .Append(mainInventory.DOScale(new Vector3(1f, 1f, 1f), 0.45f));
+            fadeInSequence.SetEase(Ease.OutBack)
+                .Append(mainInventory.DOScale(new Vector3(1f, 1f, 1f), 0.75f));
 
             fadeInSequence.Play();
         }
         else
         {
             Sequence fadeOutSequence = DOTween.Sequence();
-            fadeOutSequence.Append(mainInventory.DOScale(new Vector3(0f, 0f, 0f), 0.35f));
+            fadeOutSequence.SetEase(Ease.OutBack)
+                .Append(mainInventory.DOScale(new Vector3(0f, 0f, 0f), 0.5f));
 
             fadeOutSequence.Play().OnComplete(() =>
             {
                 mainInventory.gameObject.SetActive(false);
             });
         }
+    }
+
+    public bool IsInventoryOpen()
+    {
+        return mainInventory.gameObject.activeSelf;
+    }
+
+    public SlotUI GetSlot(int id)
+    {
+        return slots[id];
     }
 }

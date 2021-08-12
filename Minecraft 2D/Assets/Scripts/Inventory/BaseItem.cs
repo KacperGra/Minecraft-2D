@@ -52,6 +52,14 @@ public class BaseItem : Item
                 return TileType.Grass;
             case ItemType.Plank:
                 return TileType.Plank;
+            case ItemType.CoalOre:
+                return TileType.CoalOre;
+            case ItemType.IronOre:
+                return TileType.IronOre;
+            case ItemType.GoldOre:
+                return TileType.GoldOre;
+            case ItemType.DiamondOre:
+                return TileType.DiamondOre;
         }
     }
 
@@ -77,6 +85,27 @@ public class BaseItem : Item
                 return ItemType.Grass;
             case TileType.Plank:
                 return ItemType.Plank;
+            case TileType.CoalOre:
+                return ItemType.CoalOre;
+            case TileType.IronOre:
+                return ItemType.IronOre;
+            case TileType.GoldOre:
+                return ItemType.GoldOre;
+            case TileType.DiamondOre:
+                return ItemType.DiamondOre;
+        }
+    }
+
+    public static bool IsStackable(ItemType itemType)
+    {
+        switch (itemType)
+        {
+            default:
+                return true;
+            case ItemType.WoodenPickaxe:
+            case ItemType.WoodenAxe:
+            case ItemType.WoodenSword:
+                return false;
         }
     }
 }

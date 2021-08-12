@@ -9,26 +9,27 @@ public class SlotUI : MonoBehaviour
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI textMesh;
-    
+
     private RectTransform rectTransform;
     public RectTransform RectTransform => GetRectTransform();
+    private int id;
+    public int ID => id;
+
+    public Player player;
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
 
     private RectTransform GetRectTransform()
     {
-        if(rectTransform == null)
+        if (rectTransform == null)
         {
             rectTransform = GetComponent<RectTransform>();
         }
 
         return rectTransform;
-    }
-
-    private int id;
-    public int ID => id;
-
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
     }
 
     public void Initalize(int id)
@@ -43,6 +44,11 @@ public class SlotUI : MonoBehaviour
             itemImage.color = Color.white;
         }
         else
+        {
+            itemImage.color = new Color(1f, 1f, 1f, 0f);
+        }
+
+        if(amount == 0)
         {
             itemImage.color = new Color(1f, 1f, 1f, 0f);
         }

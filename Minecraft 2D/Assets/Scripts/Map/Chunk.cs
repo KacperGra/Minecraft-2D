@@ -53,7 +53,8 @@ public class Chunk
     {
         PositionToXY(position, out int x, out int y);
 
-        if(tiles[x, y + 1].IsDependOnBottomTile())
+
+        if(y + 1 < Size && tiles[x, y + 1].IsDependOnBottomTile())
         {
             tiles[x, y + 1].tileType = TileType.Air;
             UpdateTile(x, y + 1);
@@ -93,36 +94,7 @@ public class Chunk
 
     public void UpdateTile(int x, int y)
     {
-        switch (tiles[x, y].tileType)
-        {
-            case TileType.Air:
-                SetTile(x, y, null);
-                break;
-            case TileType.Dirt:
-                SetTile(x, y, GameAssets.i.dirtTile);
-                break;
-            case TileType.DirtGrass:
-                SetTile(x, y, GameAssets.i.dirtGrassTile);
-                break;
-            case TileType.Stone:
-                SetTile(x, y, GameAssets.i.stoneTile);
-                break;
-            case TileType.TreeLogMid:
-                SetTile(x, y, GameAssets.i.treeLogMidTile);
-                break;
-            case TileType.TreeLogBottom:
-                SetTile(x, y, GameAssets.i.treeLogBottomTile);
-                break;
-            case TileType.TreeLog:
-                SetTile(x, y, GameAssets.i.treeLogTile);
-                break;
-            case TileType.TreeLeaves:
-                SetTile(x, y, GameAssets.i.treeLeavesTile);
-                break;
-            case TileType.Grass:
-                SetTile(x, y, GameAssets.i.grassTile);
-                break;
-        }
+        SetTile(x, y, GameAssets.i.GetTile(tiles[x, y].tileType));
     }
 
     public void SetTile(int x, int y, Tile tile)

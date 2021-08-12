@@ -9,5 +9,9 @@ public enum TileType
     TreeLog,
     TreeLeaves,
     Grass,
-    Plank
+    Plank,
+    CoalOre,
+    IronOre,
+    GoldOre,
+    DiamondOre
 }

@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public InventoryUI inventoryUI;
     public PlayerInventory inventory;
 
+    public bool GetInput => !inventoryUI.IsInventoryOpen();
+
     private void Awake()
     {
         inventory = new PlayerInventory(InventorySize);
@@ -21,6 +23,11 @@ public class Player : MonoBehaviour
         inventory.OnInventoryUpdated.AddListener(UpdateUI);
         inventoryUI.SetupSlots(InventorySize);
         UpdateUI();
+
+        foreach (Slot slot in inventory.GetSlots().Values)
+        {
+            inventoryUI.GetSlot(slot.id).player = this;
+        }
     }
 
     private void Update()

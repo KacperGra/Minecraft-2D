@@ -112,6 +112,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         SetupBlocks(chunk);
+        AddOres(chunk);
 
         if(chunk.GetPosition().y == 1)
         {
@@ -120,6 +121,43 @@ public class MapGenerator : MonoBehaviour
         }
         
         chunk.UpdateTexture();
+    }
+
+    private void AddOres(Chunk chunk)
+    {
+        for (int x = 0; x < Chunk.Size; ++x)
+        {
+            for (int y = 0; y < Chunk.Size; ++y)
+            {
+                if (chunk.GetTile(x, y) == TileType.Stone)
+                {
+                    TileType oreToSpawn = TileType.Air;
+                    float randomValue = Random.value;
+
+                    if (randomValue <= MapSettings.ChanceForDiamond)
+                    {
+                        oreToSpawn = TileType.DiamondOre;
+                    }
+                    else if(randomValue <= MapSettings.ChanceForGold)
+                    {
+                        oreToSpawn = TileType.GoldOre;
+                    }
+                    else if (randomValue <= MapSettings.ChanceForIron)
+                    {
+                        oreToSpawn = TileType.IronOre;
+                    }
+                    else if (randomValue <= MapSettings.ChanceForCoal)
+                    {
+                        oreToSpawn = TileType.CoalOre;
+                    }
+
+                    if(oreToSpawn != TileType.Air)
+                    {
+                        chunk.SetTile(oreToSpawn, x, y);
+                    }
+                }
+            }
+        }
     }
 
     private void SetupBlocks(Chunk chunk)
@@ -293,4 +331,9 @@ public static class MapSettings
 
     public const float ChanceForTree = 0.035f;
     public const float ChanceForGrass = 0.25f;
+
+    public const float ChanceForCoal = 0.2f;
+    public const float ChanceForIron = 0.1f;
+    public const float ChanceForGold = 0.035f;
+    public const float ChanceForDiamond = 0.005f;
 }

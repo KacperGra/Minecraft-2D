@@ -8,5 +8,12 @@ public enum ItemType
     TreeLeaves,
     Grass,
     Stick,
-    Plank
+    Plank,
+    WoodenPickaxe,
+    WoodenAxe,
+    WoodenSword,
+    CoalOre,
+    IronOre,
+    GoldOre,
+    DiamondOre
 }

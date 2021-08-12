@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca118142144263844ae1432464340ae7, type: 3}
+  m_Name: Wooden Axe
+  m_EditorClassIdentifier: 
+  resoultItem: {fileID: 11400000, guid: 8cedc7e46f947384b80f7f13c1c6913c, type: 2}
+  amount: 1
+  craftingComponents:
+  - item: {fileID: 11400000, guid: cdee11afeadd6654c8575521fb1dfd99, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: adbb13c2787541a4a90bb65660cfed7a, type: 2}
+    amount: 2

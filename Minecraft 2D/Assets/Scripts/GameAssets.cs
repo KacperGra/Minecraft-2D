@@ -14,6 +14,11 @@ public class GameAssets : MonoBehaviour
     public Tile treeLogTile;
     public Tile treeLeavesTile;
     public Tile grassTile;
+    public Tile plankTile;
+    public Tile coalTile;
+    public Tile ironTile;
+    public Tile goldTile;
+    public Tile diamondTile;
 
     public static readonly Dictionary<ItemType, BaseItem> itemsDictionary = new Dictionary<ItemType, BaseItem>();
     public static readonly Dictionary<ItemType, CraftingRecipe> itemRecipeDictionary = new Dictionary<ItemType, CraftingRecipe>();
@@ -23,6 +28,7 @@ public class GameAssets : MonoBehaviour
     public CraftingSlotUI craftingSlotPrefab;
 
     public static GameAssets i;
+
     private void Awake()
     {
         i = this;
@@ -48,6 +54,41 @@ public class GameAssets : MonoBehaviour
     public T[] LoadFiles<T>() where T : ScriptableObject
     {
         return Resources.FindObjectsOfTypeAll<T>();
+    }
+
+    public Tile GetTile(TileType tileType)
+    {
+        switch (tileType)
+        {
+            default:
+                return null;
+            case TileType.Dirt:
+                return dirtTile;
+            case TileType.DirtGrass:
+                return dirtGrassTile;
+            case TileType.Stone:
+                return stoneTile;
+            case TileType.TreeLogMid:
+                return treeLogMidTile;
+            case TileType.TreeLogBottom:
+                return treeLogBottomTile;
+            case TileType.TreeLog:
+                return treeLogTile;
+            case TileType.TreeLeaves:
+                return treeLeavesTile;
+            case TileType.Grass:
+                return grassTile;
+            case TileType.Plank:
+                return plankTile;
+            case TileType.CoalOre:
+                return coalTile;
+            case TileType.IronOre:
+                return ironTile;
+            case TileType.GoldOre:
+                return goldTile;
+            case TileType.DiamondOre:
+                return diamondTile;
+        }
     }
 
     public BaseItem GetItem(ItemType itemType)
@@ -80,6 +121,14 @@ public class GameAssets : MonoBehaviour
                 return grassTile.sprite;
             case TileType.Plank:
                 return GetItem(ItemType.Plank).sprite;
+            case TileType.CoalOre:
+                return coalTile.sprite;
+            case TileType.IronOre:
+                return ironTile.sprite;
+            case TileType.GoldOre:
+                return goldTile.sprite;
+            case TileType.DiamondOre:
+                return diamondTile.sprite;
         }
     }
 
