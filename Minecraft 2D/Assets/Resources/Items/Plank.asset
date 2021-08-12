@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8984f551ca150e546b61da19085666e8, type: 3}
-  m_Name: Dirt 6
+  m_Name: Plank
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: ff2313b6679fc1842a8b239454e07bd5, type: 3}
-  itemType: 7
+  id: 8
+  sprite: {fileID: 21300000, guid: bddc6f865e9a3094d9019ad1b68900eb, type: 3}
+  itemType: 8

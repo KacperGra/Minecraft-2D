@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class InventoryUI : MonoBehaviour
 {
     private readonly Vector2 BaseSlotSize = new Vector2(113, 113);
     private readonly Vector2 SelectedSlotSize = new Vector2(120, 120);
-
 
     [SerializeField] private RectTransform content;
     [SerializeField] private RectTransform mainContent;
@@ -58,6 +58,30 @@ public class InventoryUI : MonoBehaviour
 
     public void ToggleMainInventory()
     {
-        mainInventory.gameObject.SetActive(!mainInventory.gameObject.activeSelf);
+        if(DOTween.IsTweening(mainInventory))
+        {
+            return;
+        }
+
+        if (!mainInventory.gameObject.activeSelf)
+        {
+            mainInventory.gameObject.SetActive(true);
+
+            Sequence fadeInSequence = DOTween.Sequence();
+            fadeInSequence.Append(mainInventory.DOScale(new Vector3(1.15f, 1.15f, 1f), 0.3f))
+                .Append(mainInventory.DOScale(new Vector3(1f, 1f, 1f), 0.45f));
+
+            fadeInSequence.Play();
+        }
+        else
+        {
+            Sequence fadeOutSequence = DOTween.Sequence();
+            fadeOutSequence.Append(mainInventory.DOScale(new Vector3(0f, 0f, 0f), 0.35f));
+
+            fadeOutSequence.Play().OnComplete(() =>
+            {
+                mainInventory.gameObject.SetActive(false);
+            });
+        }
     }
 }

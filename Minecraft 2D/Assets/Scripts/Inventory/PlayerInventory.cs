@@ -43,6 +43,38 @@ public class PlayerInventory : Inventory
         }
     }
 
+    public void AddItem(Item item, int amount)
+    {
+        if (item == null)
+        {
+            return;
+        }
+
+        foreach (Slot slot in slots.Values)
+        {
+            if (slot.item == null)
+            {
+                slot.amount += amount;
+                slot.item = item;
+                OnInventoryUpdated?.Invoke();
+                return;
+            }
+
+            if (slot.item != null)
+            {
+                if (slot.item.Name == item.Name)
+                {
+                    if (slot.amount + amount < BaseSlot.MaxSize)
+                    {
+                        slot.amount += amount;
+                        OnInventoryUpdated?.Invoke();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     public override void AddItems(List<Item> items)
     {
         if (items.IsNullOrEmpty())

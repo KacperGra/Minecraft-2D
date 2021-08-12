@@ -68,12 +68,7 @@ public class PlayerBuilding : MonoBehaviour
             ItemType itemType = chunk.DestroyBlock(mousePosition);
             if(itemType != ItemType.None)
             {
-                BaseItem newItem = new BaseItem
-                {
-                    ItemType = itemType,
-                    sprite = GameAssets.i.GetSprite(BaseItem.ItemToTile(itemType))
-                };
-
+                BaseItem newItem = GameAssets.i.GetItem(itemType);
                 inventory.AddItem(newItem);
 
                 Debug.Log($"Added {newItem.Name} to inventory.");

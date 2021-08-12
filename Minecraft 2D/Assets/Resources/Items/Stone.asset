@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8984f551ca150e546b61da19085666e8, type: 3}
-  m_Name: Dirt 5
+  m_Name: Stone
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 4bf1abace2955ba42b92c8932afc967c, type: 3}
-  itemType: 6
+  id: 3
+  sprite: {fileID: 21300000, guid: eaf749f6ac81fe04d8860cbb1a1596e3, type: 3}
+  itemType: 3

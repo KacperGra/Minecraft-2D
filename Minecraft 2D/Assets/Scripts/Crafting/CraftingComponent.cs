@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingComponent : BaseItem
+[System.Serializable]
+public class CraftingComponent
 {
+    public BaseItem item;
     public int amount;
 }

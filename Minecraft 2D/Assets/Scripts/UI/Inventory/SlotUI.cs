@@ -48,7 +48,7 @@ public class SlotUI : MonoBehaviour
         }
 
         itemImage.sprite = sprite;
-        if(amount == 0)
+        if(amount <= 1)
         {
             textMesh.enabled = false;
         }

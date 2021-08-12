@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8984f551ca150e546b61da19085666e8, type: 3}
-  m_Name: Dirt 4
+  m_Name: Dirt Grass
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 136946145c94cf74c801ebd9dfba02fb, type: 3}
-  itemType: 5
+  id: 2
+  sprite: {fileID: 21300000, guid: 948eb7903f5722f4e92a3c9ba05628d6, type: 3}
+  itemType: 2

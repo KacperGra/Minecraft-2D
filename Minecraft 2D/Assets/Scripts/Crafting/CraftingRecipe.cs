@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingRecipe
+[CreateAssetMenu(menuName = "New Crafting Recipe")]
+public class CraftingRecipe : ScriptableObject
 {
     public BaseItem resoultItem;
     public int amount;
@@ -15,9 +16,14 @@ public class CraftingRecipe
         foreach(CraftingComponent component in craftingComponents)
         {
             int requiredAmount = component.amount;
-            foreach(BaseSlot slot in itemSlots)
+            foreach(Slot slot in itemSlots)
             {
-                if(slot.item.ID == component.ID)
+                if(slot.item == null)
+                {
+                    continue;
+                }
+
+                if(slot.item.ID == component.item.ID)
                 {
                     requiredAmount -= slot.amount;
 
@@ -41,7 +47,7 @@ public class CraftingRecipe
     {
         foreach(CraftingComponent component in craftingComponents)
         {
-            inventory.RemoveItem(component, component.amount);
+            inventory.RemoveItem(component.item, component.amount);
         }
     }
 }

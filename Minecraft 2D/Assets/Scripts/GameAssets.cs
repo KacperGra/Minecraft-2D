@@ -15,15 +15,44 @@ public class GameAssets : MonoBehaviour
     public Tile treeLeavesTile;
     public Tile grassTile;
 
-    public Dictionary<ItemType, BaseItem> itemsDictionary;
+    public static readonly Dictionary<ItemType, BaseItem> itemsDictionary = new Dictionary<ItemType, BaseItem>();
+    public static readonly Dictionary<ItemType, CraftingRecipe> itemRecipeDictionary = new Dictionary<ItemType, CraftingRecipe>();
 
     [Header("UI")]
     public SlotUI slotPrefab;
+    public CraftingSlotUI craftingSlotPrefab;
 
     public static GameAssets i;
     private void Awake()
     {
         i = this;
+
+        Resources.LoadAll("");
+
+        foreach (BaseItem item in LoadFiles<BaseItem>())
+        {
+            itemsDictionary.Add(item.ItemType, item);
+        }
+
+        foreach (CraftingRecipe recipe in LoadFiles<CraftingRecipe>())
+        {
+            itemRecipeDictionary.Add(recipe.resoultItem.ItemType, recipe);
+        }
+    }
+
+    private void Start()
+    {
+
+    }
+
+    public T[] LoadFiles<T>() where T : ScriptableObject
+    {
+        return Resources.FindObjectsOfTypeAll<T>();
+    }
+
+    public BaseItem GetItem(ItemType itemType)
+    {
+        return itemsDictionary[itemType];
     }
 
     public Sprite GetSprite(TileType tileType)
@@ -50,7 +79,7 @@ public class GameAssets : MonoBehaviour
             case TileType.Grass:
                 return grassTile.sprite;
             case TileType.Plank:
-                return plankSprite;
+                return GetItem(ItemType.Plank).sprite;
         }
     }
 
@@ -65,7 +94,7 @@ public class GameAssets : MonoBehaviour
         switch (itemType)
         {
             case ItemType.Stick:
-                return stickSprite;
+                return GetItem(itemType).sprite;
             default:
                 return null;
         }
