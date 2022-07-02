@@ -12,23 +12,24 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private RectTransform mainContent;
     [SerializeField] private RectTransform mainInventory;
 
-    private const int BottomContentSize = 5;
+    [SerializeField] private int _bottomContentSize = 5;
 
+    private bool _isOpen;
     private Dictionary<int, SlotUI> slots;
 
     public void SetupSlots(int inventorySize)
     {
         slots = new Dictionary<int, SlotUI>();
-        for(int i = 0; i < inventorySize; ++i)
+        for (int i = 0; i < inventorySize; ++i)
         {
             SlotUI newSlot;
-            if(i < BottomContentSize)
+            if (i < _bottomContentSize)
             {
-                newSlot = Instantiate(GameAssets.i.slotPrefab, content);
+                newSlot = Instantiate(GameAssets.Instance.SlotPrefab, content);
             }
             else
             {
-                newSlot = Instantiate(GameAssets.i.slotPrefab, mainContent);
+                newSlot = Instantiate(GameAssets.Instance.SlotPrefab, mainContent);
             }
 
             newSlot.Initalize(i);
@@ -43,9 +44,9 @@ public class InventoryUI : MonoBehaviour
 
     public void SelectSlot(int id)
     {
-        foreach(SlotUI slot in slots.Values)
+        foreach (SlotUI slot in slots.Values)
         {
-            if(slot.ID == id)
+            if (slot.ID == id)
             {
                 slot.RectTransform.sizeDelta = SelectedSlotSize;
             }
@@ -58,26 +59,27 @@ public class InventoryUI : MonoBehaviour
 
     public void ToggleMainInventory()
     {
-        if(DOTween.IsTweening(mainInventory))
+        if (DOTween.IsTweening(mainInventory, true))
         {
             mainInventory.DOKill();
         }
 
-        if (!mainInventory.gameObject.activeSelf)
+        _isOpen = !_isOpen;
+        if (!_isOpen)
         {
             mainInventory.gameObject.SetActive(true);
 
-            Sequence fadeInSequence = DOTween.Sequence();
-            fadeInSequence.SetEase(Ease.OutBack)
-                .Append(mainInventory.DOScale(new Vector3(1f, 1f, 1f), 0.75f));
+            Sequence fadeInSequence = DOTween.Sequence(mainInventory);
+            fadeInSequence.SetEase(Ease.OutBack);
+            fadeInSequence.Append(mainInventory.DOScale(new Vector3(1f, 1f, 1f), 0.75f));
 
             fadeInSequence.Play();
         }
         else
         {
-            Sequence fadeOutSequence = DOTween.Sequence();
-            fadeOutSequence.SetEase(Ease.OutBack)
-                .Append(mainInventory.DOScale(new Vector3(0f, 0f, 0f), 0.5f));
+            Sequence fadeOutSequence = DOTween.Sequence(mainInventory);
+            fadeOutSequence.SetEase(Ease.OutBack);
+            fadeOutSequence.Append(mainInventory.DOScale(new Vector3(0f, 0f, 0f), 0.5f));
 
             fadeOutSequence.Play().OnComplete(() =>
             {

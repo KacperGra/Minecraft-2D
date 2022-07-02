@@ -10,6 +10,6 @@ public class CraftingSlotUI : SlotUI, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        playerCrafting.CraftItem(GameAssets.itemRecipeDictionary[(ItemType)recipeID]);
+        playerCrafting.CraftItem(GameAssets.Instance.ItemRecipeDictionary[(ItemType)recipeID]);
     }
 }

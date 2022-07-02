@@ -43,7 +43,7 @@ public class MapGenerator : MonoBehaviour
     private void Update()
     {
         Position playerPos = Chunk.GetWorldPositionToChunkPosition(player.position);
-        if(playerPos != lastPlayerPosition)
+        if (playerPos != lastPlayerPosition)
         {
             CreateChunks(renderDistance, playerPos);
             lastPlayerPosition = playerPos;
@@ -53,13 +53,13 @@ public class MapGenerator : MonoBehaviour
     private void CreateChunks(int renderDistance, Position playerPos)
     {
         Vector2 positionMutliplier = new Vector2(Chunk.Size, Chunk.Size);
-        
+
         for (int x = playerPos.x - renderDistance; x < playerPos.x + renderDistance; ++x)
         {
-            for(int y = playerPos.y - 1; y < playerPos.y + 2; ++y)
+            for (int y = playerPos.y - 1; y < playerPos.y + 2; ++y)
             {
                 Position position = new Position(x, y);
-                if(chunksDictionary.ContainsKey(position))
+                if (chunksDictionary.ContainsKey(position))
                 {
                     chunksDictionary[position].Tilemap.gameObject.SetActive(true);
                     activeChunks.Add(chunksDictionary[position]);
@@ -78,7 +78,7 @@ public class MapGenerator : MonoBehaviour
 
         foreach (Chunk chunk in activeChunks)
         {
-            if(chunksToDestroy.Contains(chunk))
+            if (chunksToDestroy.Contains(chunk))
             {
                 if (IsChunkInRange(chunk))
                 {
@@ -106,7 +106,7 @@ public class MapGenerator : MonoBehaviour
 
     private void GenerateChunk(Chunk chunk)
     {
-        if(chunk.GetPosition().y > 1)
+        if (chunk.GetPosition().y > 1)
         {
             return;
         }
@@ -114,12 +114,12 @@ public class MapGenerator : MonoBehaviour
         SetupBlocks(chunk);
         AddOres(chunk);
 
-        if(chunk.GetPosition().y == 1)
+        if (chunk.GetPosition().y == 1)
         {
             GenerateTrees(chunk);
             SmoothChunk(chunk);
         }
-        
+
         chunk.UpdateTexture();
     }
 
@@ -138,7 +138,7 @@ public class MapGenerator : MonoBehaviour
                     {
                         oreToSpawn = TileType.DiamondOre;
                     }
-                    else if(randomValue <= MapSettings.ChanceForGold)
+                    else if (randomValue <= MapSettings.ChanceForGold)
                     {
                         oreToSpawn = TileType.GoldOre;
                     }
@@ -151,7 +151,7 @@ public class MapGenerator : MonoBehaviour
                         oreToSpawn = TileType.CoalOre;
                     }
 
-                    if(oreToSpawn != TileType.Air)
+                    if (oreToSpawn != TileType.Air)
                     {
                         chunk.SetTile(oreToSpawn, x, y);
                     }
@@ -206,33 +206,18 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < Chunk.Size; ++y)
             {
-                if(chunk.GetTile(x, y) == TileType.DirtGrass)
+                if (chunk.GetTile(x, y) == TileType.DirtGrass)
                 {
                     if (Random.value > MapSettings.ChanceForTree)
                     {
                         continue;
                     }
 
-                    // Logs
-                    chunk.SetTile(TileType.TreeLogBottom, x, y + 1);
-                    chunk.SetTile(TileType.TreeLogMid, x, y + 2);
-                    chunk.SetTile(TileType.TreeLog, x, y + 3);
-
-                    // Leaves
-                    chunk.SetTile(TileType.TreeLeaves, x - 1, y + 3);
-                    chunk.SetTile(TileType.TreeLeaves, x - 2, y + 3);
-                    chunk.SetTile(TileType.TreeLeaves, x + 1, y + 3);
-                    chunk.SetTile(TileType.TreeLeaves, x + 2, y + 3);
-
-                    chunk.SetTile(TileType.TreeLeaves, x + 1, y + 4);
-                    chunk.SetTile(TileType.TreeLeaves, x, y + 4);
-                    chunk.SetTile(TileType.TreeLeaves, x - 1, y + 4);
-
-                    chunk.SetTile(TileType.TreeLeaves, x + 1, y + 5);
-                    chunk.SetTile(TileType.TreeLeaves, x, y + 5);
-                    chunk.SetTile(TileType.TreeLeaves, x - 1, y + 5);
-
-                    chunk.SetTile(TileType.TreeLeaves, x, y + 6);
+                    var treeMods = Structures.GetTree();
+                    foreach (var mod in treeMods)
+                    {
+                        chunk.SetTile(mod.Type, mod.X + x, mod.Y + y);
+                    }
                 }
             }
         }
@@ -248,12 +233,12 @@ public class MapGenerator : MonoBehaviour
                 {
                     continue;
                 }
-                if(chunk.GetTile(x, y + 1) != TileType.Air)
+                if (chunk.GetTile(x, y + 1) != TileType.Air)
                 {
                     continue;
                 }
 
-                if(chunk.GetTile(x, y) == TileType.DirtGrass)
+                if (chunk.GetTile(x, y) == TileType.DirtGrass)
                 {
                     chunk.SetTile(TileType.Grass, x, y + 1);
                 }
@@ -278,7 +263,7 @@ public class MapGenerator : MonoBehaviour
 
     private IEnumerator GenerateMap()
     {
-        while(chunksToGenerate.Count > 0)
+        while (chunksToGenerate.Count > 0)
         {
             GenerateChunk(chunksToGenerate[0]);
             activeChunks.Add(chunksToGenerate[0]);
@@ -312,6 +297,7 @@ public class MapGenerator : MonoBehaviour
     public static Chunk GetChunk(Vector3 worldPosition)
     {
         Position position = Chunk.GetWorldPositionToChunkPosition(worldPosition);
+
         return GetChunk(position);
     }
 }

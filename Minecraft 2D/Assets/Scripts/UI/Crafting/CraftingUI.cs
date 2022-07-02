@@ -8,8 +8,8 @@ public class CraftingUI : MonoBehaviour
 
     public void AddRecipe(CraftingRecipe recipe, PlayerCrafting playerCrafting)
     {
-        var newRecipe = Instantiate(GameAssets.i.craftingSlotPrefab, content);
-        newRecipe.SetItem(recipe.resoultItem.sprite, recipe.amount);
+        var newRecipe = Instantiate(GameAssets.Instance.CraftingSlotPrefab, content);
+        newRecipe.SetItem(recipe.resoultItem.Sprite, recipe.amount);
         newRecipe.recipeID = recipe.resoultItem.ID;
         newRecipe.playerCrafting = playerCrafting;
     }

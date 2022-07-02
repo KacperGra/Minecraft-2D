@@ -15,3 +15,6 @@ MonoBehaviour:
   id: 4
   sprite: {fileID: 21300000, guid: aa200d8062eacf041b5c70dd3f675a98, type: 3}
   itemType: 4
+  _tileType: 6
+  _isBlock: 1
+  _isStackable: 1

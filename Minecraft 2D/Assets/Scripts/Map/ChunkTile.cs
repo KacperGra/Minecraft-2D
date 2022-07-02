@@ -17,12 +17,14 @@ public class ChunkTile
 
     public bool IsReplacable()
     {
-        switch(tileType)
+        switch (tileType)
         {
             default:
                 return false;
+
             case TileType.Air:
                 return true;
+
             case TileType.Grass:
                 return true;
         }
@@ -34,6 +36,7 @@ public class ChunkTile
         {
             default:
                 return false;
+
             case TileType.Grass:
                 return true;
         }

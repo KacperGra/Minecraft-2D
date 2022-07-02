@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerCrafting playerCrafting;
 
     private static GameManager Instance;
+
     private void Awake()
     {
         Instance = this;
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        foreach(CraftingRecipe recipe in GameAssets.itemRecipeDictionary.Values)
+        foreach (CraftingRecipe recipe in GameAssets.Instance.ItemRecipeDictionary.Values)
         {
             craftingUI.AddRecipe(recipe, playerCrafting);
         }

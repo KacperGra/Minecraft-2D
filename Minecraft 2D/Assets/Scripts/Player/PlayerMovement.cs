@@ -19,11 +19,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        float inputX = Input.GetAxis("Horizontal");
-
-        transform.position += movementSpeed * Time.deltaTime * new Vector3(inputX, 0f);
-        Animate(inputX);
-
         if (Input.GetButtonDown("Jump") && !isJumping)
         {
             isJumping = true;
@@ -32,7 +27,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(isJumping)
+        float inputX = Input.GetAxis("Horizontal");
+
+        float moveX = movementSpeed * Time.fixedDeltaTime * inputX;
+        playerRigidbody.velocity = new Vector2(moveX, playerRigidbody.velocity.y);
+
+        Animate(inputX);
+        if (isJumping)
         {
             playerRigidbody.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = false;
@@ -42,11 +43,11 @@ public class PlayerMovement : MonoBehaviour
     private void Animate(float inputX)
     {
         animator.SetFloat("Speed", Mathf.Abs(inputX));
-        if(inputX > 0.01f)
+        if (inputX > 0.01f)
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
-        else if(inputX < -0.01f)
+        else if (inputX < -0.01f)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }

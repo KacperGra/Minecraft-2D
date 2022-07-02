@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             inventoryUI.ToggleMainInventory();
         }
@@ -40,17 +40,17 @@ public class Player : MonoBehaviour
 
     private void UpdateUI()
     {
-        foreach(Slot slot in inventory.GetSlots().Values)
+        foreach (Slot slot in inventory.GetSlots().Values)
         {
-            if(slot.item == null)
+            if (slot.item == null)
             {
                 inventoryUI.UpdateSlot(slot.id, null, 0);
                 continue;
             }
 
-            if(slot.item is BaseItem item)
+            if (slot.item is BaseItem item)
             {
-                inventoryUI.UpdateSlot(slot.id, item.sprite, slot.amount);
+                inventoryUI.UpdateSlot(slot.id, item.Sprite, slot.amount);
             }
         }
     }

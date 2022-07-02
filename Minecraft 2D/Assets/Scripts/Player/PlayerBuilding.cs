@@ -27,7 +27,7 @@ public class PlayerBuilding : MonoBehaviour
     {
         pointer.transform.position = UtilityClass.GetGridMousePosition();
 
-        if(!player.GetInput)
+        if (!player.GetInput)
         {
             return;
         }
@@ -73,9 +73,9 @@ public class PlayerBuilding : MonoBehaviour
         {
             Chunk chunk = MapGenerator.GetChunk(mousePosition);
             ItemType itemType = chunk.DestroyBlock(mousePosition);
-            if(itemType != ItemType.None)
+            if (itemType != ItemType.None)
             {
-                BaseItem newItem = GameAssets.i.GetItem(itemType);
+                BaseItem newItem = GameAssets.Instance.GetItem(itemType);
                 inventory.AddItem(newItem);
 
                 Debug.Log($"Added {newItem.Name} to inventory.");
@@ -88,8 +88,13 @@ public class PlayerBuilding : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Item item = inventory.GetItem(currentSlotIndex);
-            if(item != null && item is BaseItem baseItem)
+            if (item != null && item is BaseItem baseItem)
             {
+                if (!baseItem.IsBlock)
+                {
+                    return;
+                }
+
                 Chunk chunk = MapGenerator.GetChunk(mousePosition);
 
                 if (chunk.BuildTile(mousePosition, BaseItem.ItemToTile(baseItem.ItemType)))

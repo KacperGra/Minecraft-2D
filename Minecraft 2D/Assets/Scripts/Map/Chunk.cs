@@ -34,7 +34,7 @@ public class Chunk
         tiles = new ChunkTile[Size, Size];
         for (int x = 0; x < Size; ++x)
         {
-            for(int y = 0; y < Size; ++y)
+            for (int y = 0; y < Size; ++y)
             {
                 tiles[x, y] = new ChunkTile(new Position(x, y));
             }
@@ -43,7 +43,7 @@ public class Chunk
 
     public void SetTile(TileType tileType, int x, int y)
     {
-        if(x >= 0 && y >= 0 && x < Size && y < Size)
+        if (x >= 0 && y >= 0 && x < Size && y < Size)
         {
             tiles[x, y].tileType = tileType;
         }
@@ -52,9 +52,9 @@ public class Chunk
     public ItemType DestroyBlock(Vector3 position)
     {
         PositionToXY(position, out int x, out int y);
+        Debug.Log(new Position(x, y));
 
-
-        if(y + 1 < Size && tiles[x, y + 1].IsDependOnBottomTile())
+        if (y + 1 < Size && tiles[x, y + 1].IsDependOnBottomTile())
         {
             tiles[x, y + 1].tileType = TileType.Air;
             UpdateTile(x, y + 1);
@@ -94,7 +94,7 @@ public class Chunk
 
     public void UpdateTile(int x, int y)
     {
-        SetTile(x, y, GameAssets.i.GetTile(tiles[x, y].tileType));
+        SetTile(x, y, GameAssets.Instance.GetTile(tiles[x, y].tileType));
     }
 
     public void SetTile(int x, int y, Tile tile)
@@ -115,18 +115,17 @@ public class Chunk
 
     private void PositionToXY(Vector3 position, out int x, out int y)
     {
-        x = (int)position.x % Size;
-        y = (int)position.y % Size;
-        if (position.x <= 0)
-        {
-            x = Mathf.FloorToInt(Mathf.Abs(position.x + Size) % Size);
-        }
+        Position chunkPos = GetWorldPositionToChunkPosition(position);
+
+        x = (int)position.x - chunkPos.x * Size;
+        y = (int)position.y - chunkPos.y * Size;
     }
 
     public static Position GetWorldPositionToChunkPosition(Vector3 worldPosition)
     {
         int x = Mathf.FloorToInt(worldPosition.x / Size);
         int y = Mathf.FloorToInt(worldPosition.y / Size);
+
         return new Position(x, y);
     }
 }

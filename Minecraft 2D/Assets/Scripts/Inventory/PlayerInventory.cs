@@ -8,7 +8,7 @@ public class PlayerInventory : Inventory
 {
     public PlayerInventory(int size) : base(size)
     {
-        ;   
+        ;
     }
 
     public override void AddItem(Item item)
@@ -24,7 +24,7 @@ public class PlayerInventory : Inventory
         }
 
         int slotID = GetSlotIDWithItem(item, amount);
-        if(slotID != -1)
+        if (slotID != -1)
         {
             AddItem(amount, slotID);
             return;
@@ -40,9 +40,9 @@ public class PlayerInventory : Inventory
                 return;
             }
 
-            if(slot.item is BaseItem baseItem)
+            if (slot.item is BaseItem baseItem)
             {
-                if(BaseItem.IsStackable(baseItem.ItemType))
+                if (baseItem.IsStackable)
                 {
                     continue;
                 }
@@ -91,7 +91,7 @@ public class PlayerInventory : Inventory
 
     public override void RemoveItem(Item item)
     {
-        if(item == null)
+        if (item == null)
         {
             return;
         }
@@ -125,13 +125,13 @@ public class PlayerInventory : Inventory
         {
             if (slot.item != null && slot.item.ID == item.ID)
             {
-                if(slot.amount >= requiredAmount)
+                if (slot.amount >= requiredAmount)
                 {
                     slot.amount -= requiredAmount;
                     requiredAmount = 0;
                 }
 
-                if(slot.amount == 0)
+                if (slot.amount == 0)
                 {
                     slot.item = null;
                 }
@@ -143,7 +143,7 @@ public class PlayerInventory : Inventory
 
     public void RemoveOneItem(int id)
     {
-        if(slots[id].item != null)
+        if (slots[id].item != null)
         {
             --slots[id].amount;
             OnInventoryUpdated?.Invoke();
@@ -154,7 +154,7 @@ public class PlayerInventory : Inventory
     {
         if (GetSlot(fromID).item is BaseItem baseItem)
         {
-            if (!BaseItem.IsStackable(baseItem.ItemType))
+            if (!baseItem.IsStackable)
             {
                 return;
             }
@@ -178,18 +178,18 @@ public class PlayerInventory : Inventory
     public bool IsItemInInventory(Item item, int amount = 1)
     {
         int requiredAmount = amount;
-        foreach(Slot slot in slots.Values)
+        foreach (Slot slot in slots.Values)
         {
-            if(slot.item == null)
+            if (slot.item == null)
             {
                 continue;
             }
 
-            if(slot.item.ID == item.ID)
+            if (slot.item.ID == item.ID)
             {
                 requiredAmount -= slot.amount;
 
-                if(requiredAmount <= 0)
+                if (requiredAmount <= 0)
                 {
                     return true;
                 }
@@ -201,18 +201,18 @@ public class PlayerInventory : Inventory
 
     public int GetSlotIDWithItem(Item item, int amount)
     {
-        if(IsItemInInventory(item, 1))
+        if (IsItemInInventory(item, 1))
         {
-            foreach(Slot slot in slots.Values)
+            foreach (Slot slot in slots.Values)
             {
                 if (slot.item == null)
                 {
                     continue;
                 }
 
-                if(slot.item.ID == item.ID)
+                if (slot.item.ID == item.ID)
                 {
-                    if(slot.amount + amount > BaseSlot.MaxSize)
+                    if (slot.amount + amount > BaseSlot.MaxSize)
                     {
                         continue;
                     }
@@ -233,7 +233,7 @@ public class PlayerInventory : Inventory
         Item secondItem = GetSlot(secondItemID).item;
         int secondAmount = GetSlot(secondItemID).amount;
 
-        if(TryMergeItems(firstItem, secondItem, firstItemID, secondItemID, firstAmount))
+        if (TryMergeItems(firstItem, secondItem, firstItemID, secondItemID, firstAmount))
         {
             return;
         }
@@ -275,7 +275,7 @@ public class PlayerInventory : Inventory
     public Slot[] GetSlotsArray()
     {
         Slot[] slots = new Slot[this.slots.Count];
-        for(int i = 0; i < this.slots.Count; ++i)
+        for (int i = 0; i < this.slots.Count; ++i)
         {
             slots[i] = this.slots[i];
         }
@@ -284,7 +284,7 @@ public class PlayerInventory : Inventory
 
     public override void SetItem(Item item, int id)
     {
-        if(item == null)
+        if (item == null)
         {
             return;
         }
