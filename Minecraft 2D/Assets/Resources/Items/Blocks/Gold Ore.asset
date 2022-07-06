@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8984f551ca150e546b61da19085666e8, type: 3}
-  m_Name: GoldOre
+  m_Name: Gold Ore
   m_EditorClassIdentifier: 
   id: 14
   sprite: {fileID: 21300000, guid: 882812025e715b04992cfb853ae891ef, type: 3}

@@ -53,6 +53,7 @@ public class Chunk
     {
         PositionToXY(position, out int x, out int y);
         Debug.Log(new Position(x, y));
+        Debug.Log(GetWorldPositionToChunkPosition(position));
 
         if (y + 1 < Size && tiles[x, y + 1].IsDependOnBottomTile())
         {
@@ -117,8 +118,8 @@ public class Chunk
     {
         Position chunkPos = GetWorldPositionToChunkPosition(position);
 
-        x = (int)position.x - chunkPos.x * Size;
-        y = (int)position.y - chunkPos.y * Size;
+        x = Mathf.FloorToInt(position.x - chunkPos.x * Size);
+        y = Mathf.FloorToInt(position.y - chunkPos.y * Size);
     }
 
     public static Position GetWorldPositionToChunkPosition(Vector3 worldPosition)
